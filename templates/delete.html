@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airport Codes | Delete Airport</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Delete Airport</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
+
     <h1 class="title">Delete Airport</h1>
-    <form action="" class="form" style="margin-top: 10vh;">
+
+    <form method="POST" class="form">
         <div class="form-group">
             <label for="code">Airport Code:</label>
             <input type="text" id="code" name="code" required>
         </div>
+
         <button type="submit" class="submit-btn">Delete Airport</button>
     </form>
-    <a href="index.html" class="home">Go to home</a>
+
+    <a href="{{ url_for('index') }}" class="home">← Go Back</a>
+
 </body>
 </html>

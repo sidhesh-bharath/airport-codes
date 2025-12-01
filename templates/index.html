@@ -4,43 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airport Codes</title>
-    <link rel="stylesheet" href="styles.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
+
     <div class="links">
-        <a href="add.html" class="link">Add Airport</a>
+        <a href="{{ url_for('create_item') }}" class="link">Add Airport</a>
         <h1 class="title">Airport Codes</h1>
-        <a href="add.html" class="link">Delete Airport</a>
+        <a href="{{ url_for('delete_item') }}" class="link">Delete Airport</a>
     </div>
-    <input type="text" class="search" placeholder="🔍 Search by Airport Code....">
+
+    <input type="text" class="search" placeholder="🔍 Search by Airport Code...">
+
     <div class="container">
+        {% for item in items %}
         <div class="card">
-            <p1 class="code">JFK</p1>
+            <p class="code">{{ item.code }}</p>
             <div class="separator"></div>
-            <p1 class="name">John F. Kennedy International Airport</p1>
+            <p class="name">{{ item.name }}</p>
+
             <div class="last">
-                <p1 class="city">📍New York City, USA</p1>
-                <input type="checkbox" class="check"></input>
+                <p class="city">📍 {{ item.location }}</p>
+                <input type="checkbox" class="check">
             </div>
         </div>
-        <div class="card">
-            <p1 class="code">MAA</p1>
-            <div class="separator"></div>
-            <p1 class="name">Chennai International Airport</p1>
-            <div class="last">
-                <p1 class="city">📍Chennai, India</p1>
-                <input type="checkbox" class="check"></input>   
-            </div>         
-        </div>
-        <div class="card">
-            <p1 class="code">LHR</p1>
-            <div class="separator"></div>
-            <p1 class="name">London Heathrow International Airport</p1>
-            <div class="last">
-                <p1 class="city">📍London, UK</p1>
-                <input type="checkbox" class="check"></input>
-            </div>
-        </div>
+        {% else %}
+        <p style="color: gray; text-align: center; width: 100%; margin-top: 20px;">
+            No airports found. Add some!
+        </p>
+        {% endfor %}
     </div>
+
 </body>
 </html>
