@@ -7,9 +7,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-
 <body>
-
     <h1 class="title">Add Airport</h1>
     {% if error %}
     <p style="color: red; text-align: center; margin-bottom: 10px;">
@@ -37,6 +35,5 @@
     </form>
 
     <a href="{{ url_for('index') }}" class="home">← Go Back</a>
-
 </body>
 </html>

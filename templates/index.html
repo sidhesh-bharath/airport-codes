@@ -6,9 +6,7 @@
     <title>Airport Codes</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-
 <body>
-
     <div class="links">
         <a href="{{ url_for('create_item') }}" class="link">Add Airport</a>
         <h1 class="title">Airport Codes</h1>
@@ -16,13 +14,7 @@
     </div>
 
     <form method="GET" action="/" class="search-container">
-        <input 
-            type="text" 
-            name="q" 
-            class="search"
-            placeholder="Search by Airport Code..."
-            value="{{ request.args.get('q', '') }}"
-        >
+        <input type="text" name="q" class="search" placeholder="Search by Airport Code..." value="{{ request.args.get('q', '') }}">
     </form>
 
     <div class="container">
@@ -34,7 +26,8 @@
 
             <div class="last">
                 <p class="city">📍 {{ item.location }}</p>
-                <input type="checkbox" class="check">
+
+                <input type="checkbox" class="check" data-key="{{ item.code }}">
             </div>
         </div>
         {% else %}
@@ -43,6 +36,23 @@
         </p>
         {% endfor %}
     </div>
+
+<script>
+    const boxes = document.querySelectorAll(".check");
+
+    boxes.forEach(box => {
+        const key = box.dataset.key;
+        const saved = localStorage.getItem(key);
+        if (saved !== null) box.checked = saved === "true";
+    });
+
+    boxes.forEach(box => {
+        box.addEventListener("change", () => {
+            const key = box.dataset.key;
+            localStorage.setItem(key, box.checked);
+        });
+    });
+</script>
 
 </body>
 </html>
