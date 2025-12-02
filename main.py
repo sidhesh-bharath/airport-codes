@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from db import *
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///airports.db'
@@ -12,10 +13,18 @@ with app.app_context():
 
 @app.route("/")
 def index():
-    items = AirportInfo.query.all()
+    q = request.args.get("q", "")
+    if q:
+        items = AirportInfo.query.filter(
+            AirportInfo.code.ilike(f"%{q}%")
+        ).all()
+    else:
+        items = AirportInfo.query.all()
+    
     return render_template('index.html', items=items)
 
 
+@app.route('/add', methods=['GET', 'POST'])
 @app.route('/add', methods=['GET', 'POST'])
 def create_item():
     if request.method == 'POST':
@@ -23,13 +32,18 @@ def create_item():
         name = request.form['name']
         location = request.form['location']
 
-        new_item = AirportInfo(code=code, name=name, location=location)
-        db.session.add(new_item)
-        db.session.commit()
-        return redirect(url_for('index'))
+        try:
+            new_item = AirportInfo(code=code, name=name, location=location)
+            db.session.add(new_item)
+            db.session.commit()
+            return redirect(url_for('index'))
+        
+        except IntegrityError:
+            db.session.rollback()
+            error = "Airport already exists!"
+            return render_template('add.html', error=error)
 
     return render_template('add.html')
-
 
 @app.route('/delete', methods=['GET', 'POST'])
 def delete_item():
