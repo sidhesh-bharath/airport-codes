@@ -163,5 +163,13 @@ label {
 
 .search {
     margin-bottom: 3vh;
-    margin-right: 1.7vw;
+}
+
+.footer {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    color: gray;
+    font-size: 14px;
 }
